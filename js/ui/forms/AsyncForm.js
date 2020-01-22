@@ -13,6 +13,9 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor( element ) {
+    this.element = element;
+    
+    this.registerEvents();
 
   }
 
@@ -21,8 +24,18 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
+    const forms = document.querySelectorAll('.form');
+    forms.forEach(form => {
+      form.addEventListener('submit', e => {
+        e.preventDefault();                  
+        this.submit();
+      })
+    })
+          
+    }
+  
 
-  }
+  
 
   /**
    * Преобразует данные формы в объект вида
@@ -31,9 +44,14 @@ class AsyncForm {
    *  'название поля формы 2': 'значение поля формы 2'
    * }
    * */
-  getData() {
+  getData() {    
+    
+      
+    }    
+      
+    
 
-  }
+  
 
   onSubmit( options ) {
 
@@ -44,6 +62,9 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
+    console.log(123);
 
   }
 }
+
+

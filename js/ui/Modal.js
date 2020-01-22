@@ -1,51 +1,5 @@
 // import { ENETUNREACH } from "constants";
 
-let registerButton = document.querySelector('.menu-item_register');
-
-//открывает модальное окно регистрации
-registerButton.addEventListener('click', e => {
-  e.preventDefault();
-  let modalRegister = document.querySelector('#modal-register');
-  modalRegister.style.display = 'block';
- 
-})
-
-//обработчики на все закрывающие элементы
-let closeButtons = Array.from(document.querySelectorAll('[data-dismiss]'));
-for(let closeButton of closeButtons) {
-  closeButton.addEventListener('click', e => {
-    e.target.closest('.modal').style.display = '';
-  })
-}
-
-//обработчик на кнопку "зарегистрироваться"
-let formButtons = Array.from(document.querySelectorAll('.btn-primary'));
-for(let formButton of formButtons) {
-  if(formButton.textContent === 'Зарегистрироваться') {
-  formButton.addEventListener('click', e => {
-    e.preventDefault();       
-    let registerForm = document.querySelector('#register-form');
-    formData = new FormData(registerForm);
-    entries = formData.entries();
-    //как добавить все данные из formData в объект?
-    for (let item of entries) {
-      let key = item[0];
-      let value = item[1];        
-        
-      }
-    
-    let dataToSubmit = new Object();
-    dataToSubmit.url = registerForm.getAttribute('action');
-    dataToSubmit.method = registerForm.getAttribute('method');
-    //dataToSubmit.data = 
-       
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://bhj-diplom.letsdocode.ru/user/register.php');    
-    xhr.send(dataToSubmit);    
-    return false;
-  })
-  }  
-}
 /**
  * Класс Modal отвечает за
  * управление всплывающими окнами.
@@ -53,6 +7,7 @@ for(let formButton of formButtons) {
  * закрытие имеющихся окон
  * */
 class Modal {
+  
   /**
    * Устанавливает текущий элемент в свойство element
    * Регистрирует обработчики событий с помощью
@@ -61,6 +16,10 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    this.element = element;
+    
+    
+    this.registerEvents();
 
   }
 
@@ -70,21 +29,36 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    
+    const closingElements = this.element.querySelectorAll('[data-dismiss]');   
+    closingElements.forEach(element => {
+      element.addEventListener('click', () => {
+        this.onClose();
+      })
+    })
 
   }
+  
 
   /**
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose( e ) {
+  onClose( e ) {    
+    this.close();      
+    }
 
-  }
+  
   /**
    * Удаляет обработчики событий
    * */
   unregisterEvents() {
+    const closingElements = this.element.querySelectorAll('[data-dismiss]');   
+    closingElements.forEach(element => {
+      element.removeEventListener('click', () => {
+        this.onClose();
+      })
+    })
+
 
   }
   /**
@@ -92,12 +66,18 @@ class Modal {
    * со значением «block»
    * */
   open() {
+    this.element.style.display = 'block';
+    
+   
 
   }
   /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
   close(){
+    this.element.style.display = 'none';
 
   }
 }
+
+
