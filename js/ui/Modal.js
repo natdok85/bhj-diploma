@@ -16,9 +16,7 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    this.element = element;
-    
-    
+    this.element = element;    
     this.registerEvents();
 
   }
@@ -29,12 +27,21 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
+    //const modal = this.element.querySelector('.modal-content');
+
     const closingElements = this.element.querySelectorAll('[data-dismiss]');   
+    // modal.addEventListener('click', e => {
+    //   if(e.target === )
+    // })
     closingElements.forEach(element => {
+  
       element.addEventListener('click', () => {
-        this.onClose();
+        
+          this.onClose();
+        })
+        
       })
-    })
+    
 
   }
   
@@ -67,6 +74,7 @@ class Modal {
    * */
   open() {
     this.element.style.display = 'block';
+    
     
    
 
