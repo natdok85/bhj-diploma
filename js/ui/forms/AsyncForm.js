@@ -13,8 +13,7 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor( element ) {
-    this.element = element;    
-    console.log(this.element);
+    this.element = element;        
     this.registerEvents();
 
   }
@@ -24,27 +23,13 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    const forms = document.querySelectorAll('.form');
-    
-    forms.forEach(form => {      
-      form.addEventListener('submit', e => {
-        e.preventDefault(); 
-        
-    //     const formData = new FormData(form);
-    
-    // for(let pair of formData.entries()) {
-    //     const key = pair[0];
-    //     const value = pair[1];
 
-    //     console.log( `${key}: ${value}`); 
-    //  }
-        //this.submit();
-        this.getData();
-      })
-    })
-          
-    }
-  
+    this.element.addEventListener('submit', e => {
+      e.preventDefault();            
+      this.submit();
+    })    
+        
+      }
 
   
 
@@ -57,14 +42,22 @@ class AsyncForm {
    * */
   getData() {    
     const formData = new FormData(this.element);
-    
-    for(let pair of formData.entries()) {
-        const key = pair[0];
-        const value = pair[1];
-
-        console.log( `${key}: ${value}`); 
+    let data = new Object();
+    let submitData = new Object();
+        
+    for(let pair of formData.entries()) {      
+      const key = pair[0];
+      const value = pair[1];     
+      data[`${key}`] = value;
      }
-    
+
+     submitData.url = this.element.action;
+     submitData.method = this.element.method;
+     submitData.data = data;
+
+
+     console.log(JSON.stringify(submitData));     
+     return JSON.stringify(submitData);    
       
     }    
       
@@ -72,7 +65,7 @@ class AsyncForm {
 
   
 
-  onSubmit( options ) {
+  onSubmit( options ) {          
 
   }
 
@@ -81,7 +74,7 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-    
+    this.onSubmit(this.getData());
 
   }
 }
